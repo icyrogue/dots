@@ -1,0 +1,26 @@
+path+=($HOME/.local/bin/)
+export GOBIN=$HOME/.local/bin/
+
+# Download Znap, if it's not there yet.
+[[ -r ~/.config/zsh/plugins/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git ~/.config/zsh/plugins
+source ~/.config/zsh/plugins/znap.zsh  # Start Znap
+
+znap prompt sindresorhus/pure
+znap source marlonrichert/zsh-autocomplete
+znap source junegunn/fzf shell/{completion,key-bindings}.zsh
+~[junegunn/fzf]/install --no-fish --no-bash --bin
+
+zstyle ':autocomplete:*' delay 1
+zstyle ':autocomplete:tab:*' fzf-completion yes
+
+bindkey -M menuselect  '^[[D' .backward-char  '^[OD' .backward-char
+bindkey -M menuselect  '^[[C'  .forward-char  '^[OC'  .forward-char
+
+znap eval zoxide "zoxide init zsh"
+
+alias cd=z
+alias cat=bat
+alias ls="eza -s type --icons"
+
